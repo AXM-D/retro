@@ -1,0 +1,64 @@
+name: ip_full_investigation
+version: "1.0"
+description: "Full OSINT investigation on an IP address"
+trigger_type: automatic
+accepts:
+  - ip
+
+steps:
+  - id: geoip_lookup
+    type: connector_call
+    connector: geoip
+    action: lookup
+    params:
+      ip: "{{ seed.value }}"
+
+  - id: dns_reverse
+    type: connector_call
+    connector: dns_resolver
+    action: reverse
+    params:
+      ip: "{{ seed.value }}"
+
+  - id: whois_ip
+    type: connector_call
+    connector: whois
+    action: ip
+    params:
+      ip: "{{ seed.value }}"
+
+  - id: abuse_check
+    type: connector_call
+    connector: abuseipdb
+    action: check
+    params:
+      ip: "{{ seed.value }}"
+
+  - id: shodan_check
+    type: connector_call
+    connector: shodan_free
+    action: ip
+    params:
+      ip: "{{ seed.value }}"
+
+  - id: vt_check
+    type: connector_call
+    connector: virustotal_free
+    action: ip
+    params:
+      ip: "{{ seed.value }}"
+
+  - id: scoring
+    type: scoring.compute
+    inputs:
+      - geoip_lookup
+      - dns_reverse
+      - whois_ip
+      - abuse_check
+      - shodan_check
+      - vt_check
+
+  - id: notify_alert
+    type: notify
+    message: "Investigation complete for {{ seed.value }}"
+    level: info

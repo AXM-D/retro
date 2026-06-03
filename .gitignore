@@ -1,0 +1,17 @@
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+*.egg-info/
+*.egg
+dist/
+build/
+.eggs/
+venv/
+.env
+*.db
+node_modules/
+dist/
+.vite/
+data/threat_feeds/
+data/firewall_rules.json

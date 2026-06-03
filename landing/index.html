@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>RETRO — Active Defense Platform</title>
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='20' fill='%23f78166'/><text x='50' y='68' font-family='monospace' font-size='50' font-weight='bold' fill='white' text-anchor='middle'>R</text></svg>">
+<style>
+:root {
+  --bg: #0d1117;
+  --bg2: #161b22;
+  --border: #30363d;
+  --text: #c9d1d9;
+  --text2: #8b949e;
+  --orange: #f78166;
+  --blue: #58a6ff;
+  --green: #238636;
+  --red: #da3633;
+  --yellow: #d29922;
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.6;
+}
+.container { max-width: 1100px; margin: 0 auto; padding: 0 20px; }
+
+/* Navbar */
+.navbar {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  background: rgba(13, 17, 23, 0.95);
+  border-bottom: 1px solid var(--border);
+  padding: 16px 0;
+  z-index: 100;
+  backdrop-filter: blur(10px);
+}
+.navbar .container { display: flex; justify-content: space-between; align-items: center; }
+.navbar .logo { font-size: 24px; font-weight: bold; color: var(--orange); letter-spacing: 2px; text-decoration: none; }
+.navbar nav a {
+  color: var(--text2);
+  text-decoration: none;
+  margin-left: 24px;
+  font-size: 14px;
+  transition: color 0.2s;
+}
+.navbar nav a:hover { color: var(--orange); }
+
+/* Hero */
+.hero {
+  padding: 160px 0 100px;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+.hero::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(ellipse at center, rgba(247,129,102,0.03) 0%, transparent 70%);
+  pointer-events: none;
+}
+.hero h1 {
+  font-size: 56px;
+  font-weight: 800;
+  margin-bottom: 20px;
+  background: linear-gradient(135deg, var(--orange), var(--blue));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+.hero p {
+  font-size: 18px;
+  color: var(--text2);
+  max-width: 600px;
+  margin: 0 auto 32px;
+}
+.hero .btn-group { display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; }
+.hero .btn {
+  padding: 12px 32px;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: 600;
+  text-decoration: none;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+.hero .btn:hover { transform: translateY(-2px); }
+.hero .btn-primary {
+  background: linear-gradient(135deg, var(--orange), #e06b50);
+  color: white;
+  box-shadow: 0 4px 20px rgba(247,129,102,0.3);
+}
+.hero .btn-secondary {
+  background: var(--bg2);
+  color: var(--text);
+  border: 1px solid var(--border);
+}
+
+/* Sections */
+.section {
+  padding: 80px 0;
+  border-bottom: 1px solid var(--border);
+}
+.section:last-child { border-bottom: none; }
+.section h2 {
+  font-size: 36px;
+  font-weight: 700;
+  margin-bottom: 16px;
+  text-align: center;
+}
+.section h2 span.orange { color: var(--orange); }
+.section h2 span.blue { color: var(--blue); }
+.section > p.subtitle {
+  text-align: center;
+  color: var(--text2);
+  max-width: 600px;
+  margin: 0 auto 48px;
+  font-size: 16px;
+}
+
+/* Features Grid */
+.features { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; }
+.feature {
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 28px;
+  transition: border-color 0.2s, transform 0.2s;
+}
+.feature:hover { border-color: var(--orange); transform: translateY(-4px); }
+.feature .icon { font-size: 32px; margin-bottom: 12px; }
+.feature h3 { font-size: 18px; margin-bottom: 8px; }
+.feature p { color: var(--text2); font-size: 14px; line-height: 1.6; }
+
+/* Architecture */
+.arch { text-align: center; }
+.arch-diagram {
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 40px;
+  max-width: 800px;
+  margin: 0 auto;
+}
+.arch-layer { padding: 16px 24px; margin: 8px 0; border-radius: 8px; font-size: 14px; }
+.arch-layer.sensors { background: rgba(88,166,255,0.1); border: 1px solid var(--blue); }
+.arch-layer.engine { background: rgba(247,129,102,0.1); border: 1px solid var(--orange); }
+.arch-layer.osint { background: rgba(210,153,34,0.1); border: 1px solid var(--yellow); }
+.arch-layer.protection { background: rgba(35,134,54,0.1); border: 1px solid var(--green); }
+.arch-layer h4 { margin-bottom: 4px; }
+.arch-layer p { font-size: 12px; color: var(--text2); }
+
+/* Tech Specs */
+.specs { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 16px; }
+.spec {
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 20px;
+  text-align: center;
+}
+.spec .value { font-size: 24px; font-weight: bold; margin-bottom: 4px; }
+.spec .label { font-size: 13px; color: var(--text2); }
+
+/* FAQ */
+.faq-item {
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 20px 24px;
+  margin-bottom: 12px;
+}
+.faq-item h3 { font-size: 16px; margin-bottom: 8px; color: var(--orange); }
+.faq-item p { font-size: 14px; color: var(--text2); }
+
+/* Footer */
+.footer {
+  text-align: center;
+  padding: 40px 0;
+  color: var(--text2);
+  font-size: 13px;
+}
+.footer strong { color: var(--orange); }
+
+@media (max-width: 768px) {
+  .hero h1 { font-size: 36px; }
+  .hero p { font-size: 16px; }
+  .navbar nav a { margin-left: 12px; font-size: 12px; }
+}
+</style>
+</head>
+<body>
+
+<nav class="navbar">
+  <div class="container">
+    <a href="#" class="logo">RETRO</a>
+    <nav>
+      <a href="#features">Features</a>
+      <a href="#architecture">Architecture</a>
+      <a href="#tech">Tech Specs</a>
+      <a href="#faq">FAQ</a>
+      <a href="http://localhost:8500" target="_blank" style="color: var(--orange); font-weight: 600;">Dashboard</a>
+    </nav>
+  </div>
+</nav>
+
+<section class="hero">
+  <div class="container">
+    <h1>RETRO</h1>
+    <p>Active Defense & Counterattack OSINT Platform — Detect, investigate, and counter threats autonomously, all locally.</p>
+    <div class="btn-group">
+      <a href="http://localhost:8500" class="btn btn-primary">Launch Dashboard</a>
+      <a href="#features" class="btn btn-secondary">Learn More</a>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="features">
+  <div class="container">
+    <h2>Powered by <span class="blue">TaQ Engine</span></h2>
+    <p class="subtitle">Every feature runs 100% locally — no cloud, no subscriptions, no data leaks.</p>
+    <div class="features">
+      <div class="feature">
+        <div class="icon">📡</div>
+        <h3>Honeypot Sensors</h3>
+        <p>SSH & HTTP honeypots that capture attacker data — IP, credentials, fingerprints, payloads.</p>
+      </div>
+      <div class="feature">
+        <div class="icon">🔍</div>
+        <h3>OSINT Investigation</h3>
+        <p>Deep-dive into IPs, emails, domains, hashes, and usernames using public sources — all automated.</p>
+      </div>
+      <div class="feature">
+        <div class="icon">🛡️</div>
+        <h3>Active Protection</h3>
+        <p>Auto-block malicious IPs via iptables/nftables, sinkhole domains, and rate-limit attackers.</p>
+      </div>
+      <div class="feature">
+        <div class="icon">🎯</div>
+        <h3>Attacker Profiling</h3>
+        <p>Build complete profiles of repeat attackers — linked IPs, countries, ISPs, threat scores.</p>
+      </div>
+      <div class="feature">
+        <div class="icon">📊</div>
+        <h3>Real-time Dashboard</h3>
+        <p>Live feed of attacks, interactive controls, and visual threat analysis on your local browser.</p>
+      </div>
+      <div class="feature">
+        <div class="icon">📋</div>
+        <h3>Countermeasures</h3>
+        <p>Firewall rules, abuse reporting, DNS blocking, threat intel export (STIX/JSON), and takedown assistance.</p>
+      </div>
+      <div class="feature">
+        <div class="icon">📄</div>
+        <h3>Incident Reports</h3>
+        <p>Auto-generated HTML & PDF reports with full OSINT data, timeline, and countermeasure logs.</p>
+      </div>
+      <div class="feature">
+        <div class="icon">🔔</div>
+        <h3>Desktop Alerts</h3>
+        <p>Real-time desktop notifications and optional sound alarms when threats are detected.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="architecture">
+  <div class="container">
+    <h2>Powered by <span class="orange">TaQ v1.0.1</span></h2>
+    <p class="subtitle">RETRO is built on top of the TaQ Engine — the same core that powers AXM's OSINT products.</p>
+    <div class="arch-diagram">
+      <div class="arch-layer sensors">
+        <h4>📡 Sensors Layer</h4>
+        <p>SSH Honeypot · HTTP Honeypot · Port Scan Detector · Log Importer</p>
+      </div>
+      <div style="text-align:center;color:var(--border);padding:4px 0;">⬇</div>
+      <div class="arch-layer engine">
+        <h4>⚙️ RETRO Engine</h4>
+        <p>Event Processing · Attacker Profiling · Threat Scoring · Orchestration</p>
+      </div>
+      <div style="text-align:center;color:var(--border);padding:4px 0;">⬇</div>
+      <div class="arch-layer osint">
+        <h4>🔍 OSINT Layer (TaQ Engine)</h4>
+        <p>DNS · WHOIS · GeoIP · Shodan · VirusTotal · AbuseIPDB · MalwareBazaar</p>
+      </div>
+      <div style="text-align:center;color:var(--border);padding:4px 0;">⬇</div>
+      <div class="arch-layer protection">
+        <h4>🛡️ Protection & Countermeasures</h4>
+        <p>Firewall Manager · DNS Sinkhole · Geo Blocking · Abuse Reporting · Threat Feeds</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="tech">
+  <div class="container">
+    <h2>Technical <span class="blue">Specifications</span></h2>
+    <p class="subtitle">Built with modern, open-source technology — fully local, fully private.</p>
+    <div class="specs">
+      <div class="spec">
+        <div class="value" style="color:var(--blue);">Python 3.12+</div>
+        <div class="label">Runtime</div>
+      </div>
+      <div class="spec">
+        <div class="value" style="color:var(--orange);">FastAPI</div>
+        <div class="label">Backend</div>
+      </div>
+      <div class="spec">
+        <div class="value" style="color:var(--yellow);">SQLite</div>
+        <div class="label">Database</div>
+      </div>
+      <div class="spec">
+        <div class="value" style="color:var(--green);">React + Vite</div>
+        <div class="label">Frontend</div>
+      </div>
+      <div class="spec">
+        <div class="value" style="color:var(--blue);">Ollama</div>
+        <div class="label">LLM (optional)</div>
+      </div>
+      <div class="spec">
+        <div class="value" style="color:var(--red);">iptables/nft</div>
+        <div class="label">Protection</div>
+      </div>
+      <div class="spec">
+        <div class="value" style="color:var(--orange);">0 USD</div>
+        <div class="label">Cost</div>
+      </div>
+      <div class="spec">
+        <div class="value" style="color:var(--green);">localhost:8500</div>
+        <div class="label">Dashboard</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="faq">
+  <div class="container">
+    <h2>Frequently Asked <span class="orange">Questions</span></h2>
+    <p class="subtitle">Everything you need to know about RETRO.</p>
+    <div class="faq-item">
+      <h3>Does RETRO require internet?</h3>
+      <p>Partial. The sensors work fully offline. Some OSINT sources (Shodan, VirusTotal, AbuseIPDB) need internet. You can use RETRO with only local DNS/WHOIS for full offline mode.</p>
+    </div>
+    <div class="faq-item">
+      <h3>Is it free?</h3>
+      <p>100% free. No subscriptions, no cloud, no hidden costs. You just need Python and optionally Ollama for LLM features.</p>
+    </div>
+    <div class="faq-item">
+      <h3>Do I need API keys?</h3>
+      <p>Only if you want to use Shodan, VirusTotal, or AbuseIPDB — all offer free tiers. The core features (honeypots, DNS, WHOIS, GeoIP) work without keys.</p>
+    </div>
+    <div class="faq-item">
+      <h3>Is it legal?</h3>
+      <p>Yes. RETRO operates on your own infrastructure. Honeypots capture data from attackers targeting you. OSINT uses public sources. Countermeasures act on your own systems.</p>
+    </div>
+    <div class="faq-item">
+      <h3>What operating systems does it support?</h3>
+      <p>Linux (recommended). The firewall features require iptables/nftables. The Python backend works on any OS.</p>
+    </div>
+  </div>
+</section>
+
+<footer class="footer">
+  <div class="container">
+    <p>RETRO v0.1.0 — Powered by <strong>TaQ Engine</strong></p>
+    <p>Part of the <strong>AXM</strong> ecosystem</p>
+    <p><a href="https://github.com/AXM-D" style="color: var(--blue); text-decoration: none;">GitHub</a> &middot; <a href="http://localhost:8500" style="color: var(--orange); text-decoration: none;">Dashboard</a></p>
+  </div>
+</footer>
+
+</body>
+</html>

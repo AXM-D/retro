@@ -1,0 +1,19 @@
+name: hash_analysis
+version: "1.0"
+description: "Analyze a file hash"
+trigger_type: manual
+accepts:
+  - hash
+
+steps:
+  - id: vt_hash
+    type: connector_call
+    connector: virustotal_free
+    action: hash
+    params:
+      hash: "{{ seed.value }}"
+
+  - id: scoring
+    type: scoring.compute
+    inputs:
+      - vt_hash

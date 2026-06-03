@@ -1,0 +1,43 @@
+name: domain_threat
+version: "1.0"
+description: "Investigate a domain for threats"
+trigger_type: automatic
+accepts:
+  - domain
+
+steps:
+  - id: dns_resolve
+    type: connector_call
+    connector: dns_resolver
+    action: resolve
+    params:
+      hostname: "{{ seed.value }}"
+
+  - id: dns_txt
+    type: connector_call
+    connector: dns_resolver
+    action: txt
+    params:
+      domain: "{{ seed.value }}"
+
+  - id: whois_lookup
+    type: connector_call
+    connector: whois
+    action: lookup
+    params:
+      domain: "{{ seed.value }}"
+
+  - id: vt_domain
+    type: connector_call
+    connector: virustotal_free
+    action: domain
+    params:
+      domain: "{{ seed.value }}"
+
+  - id: scoring
+    type: scoring.compute
+    inputs:
+      - dns_resolve
+      - dns_txt
+      - whois_lookup
+      - vt_domain

@@ -1,0 +1,27 @@
+name: email_phishing
+version: "1.0"
+description: "Investigate a suspected phishing email address"
+trigger_type: manual
+accepts:
+  - email
+
+steps:
+  - id: dns_lookup
+    type: connector_call
+    connector: dns_resolver
+    action: mx
+    params:
+      domain: "{{ seed.value.split('@')[1] }}"
+
+  - id: whois_domain
+    type: connector_call
+    connector: whois
+    action: lookup
+    params:
+      domain: "{{ seed.value.split('@')[1] }}"
+
+  - id: scoring
+    type: scoring.compute
+    inputs:
+      - dns_lookup
+      - whois_domain
